@@ -1,12 +1,12 @@
 package com.kacper.travelApp;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:3000/")
 @RestController
 @RequestMapping("api/users")
 public class UserController {
@@ -21,4 +21,17 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @PostMapping
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginReq loginReq) {
+        User user = userService.loginUser(loginReq.getLogin(), loginReq.getPassword());
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login or password");
+    }
 }
