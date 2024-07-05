@@ -1,4 +1,4 @@
-package com.kacper.travelApp;
+package com.kacper.travelApp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

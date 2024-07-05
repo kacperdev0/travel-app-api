@@ -1,5 +1,7 @@
-package com.kacper.travelApp;
+package com.kacper.travelApp.service;
 
+import com.kacper.travelApp.repository.UserRepository;
+import com.kacper.travelApp.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

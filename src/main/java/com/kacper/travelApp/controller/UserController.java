@@ -1,5 +1,8 @@
-package com.kacper.travelApp;
+package com.kacper.travelApp.controller;
 
+import com.kacper.travelApp.model.LoginReq;
+import com.kacper.travelApp.model.User;
+import com.kacper.travelApp.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

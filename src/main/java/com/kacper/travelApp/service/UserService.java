@@ -1,4 +1,6 @@
-package com.kacper.travelApp;
+package com.kacper.travelApp.service;
+
+import com.kacper.travelApp.model.User;
 
 import java.util.List;
 
