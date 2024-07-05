@@ -16,17 +16,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping
+    @PostMapping("/public/register")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/public/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginReq loginReq) {
         User user = userService.loginUser(loginReq.getLogin(), loginReq.getPassword());
         if (user != null) {
