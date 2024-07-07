@@ -28,13 +28,4 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
-
-    @Override
-    public User loginUser(String login, String password) {
-        User user = userRepo.findByLogin(login);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
-    }
 }
