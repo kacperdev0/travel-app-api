@@ -62,6 +62,7 @@ public class AuthController {
         if (passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
             Session session = new Session();
             session.setJSSESSIONID(httpSession.getId());
+            session.setUserId(user.getId());
             sessionRepository.save(session);
             return new ResponseEntity<>("Logged successfully!", HttpStatus.CREATED);
         }

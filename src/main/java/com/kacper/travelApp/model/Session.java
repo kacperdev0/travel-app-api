@@ -11,4 +11,6 @@ public class Session {
     private Long Id;
     @Column(name = "SESSIONID")
     private String JSSESSIONID;
+    @Column(name = "user_id")
+    private Long userId;
 }
