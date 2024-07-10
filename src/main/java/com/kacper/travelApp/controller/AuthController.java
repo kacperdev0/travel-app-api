@@ -1,11 +1,10 @@
 package com.kacper.travelApp.controller;
 
-import com.kacper.travelApp.model.LoginDto;
-import com.kacper.travelApp.model.RegisterDto;
-import com.kacper.travelApp.model.Role;
-import com.kacper.travelApp.model.User;
+import com.kacper.travelApp.model.*;
 import com.kacper.travelApp.repository.RoleRepository;
+import com.kacper.travelApp.repository.SessionRepository;
 import com.kacper.travelApp.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +26,17 @@ public class AuthController {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
+    private SessionRepository sessionRepository;
+
 
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, SessionRepository sessionRepository) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.sessionRepository = sessionRepository;
     }
 
     @PostMapping("/register")
@@ -55,9 +57,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getLogin(), loginDto.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User logged!", HttpStatus.OK);
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession httpSession) {
+        User user = userRepository.findByLogin(loginDto.getLogin());
+        if (passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            Session session = new Session();
+            session.setJSSESSIONID(httpSession.getId());
+            sessionRepository.save(session);
+            return new ResponseEntity<>("Logged successfully!", HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Incorrect login data!", HttpStatus.OK);
     }
 }
