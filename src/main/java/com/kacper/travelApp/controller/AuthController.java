@@ -2,16 +2,13 @@ package com.kacper.travelApp.controller;
 
 import com.kacper.travelApp.model.*;
 import com.kacper.travelApp.repository.RoleRepository;
-import com.kacper.travelApp.repository.SessionRepository;
 import com.kacper.travelApp.repository.UserRepository;
+import com.kacper.travelApp.service.SessionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,18 +22,22 @@ public class AuthController {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private SessionService sessionService;
 
-    private SessionRepository sessionRepository;
 
 
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, SessionRepository sessionRepository) {
+    public AuthController(AuthenticationManager authenticationManager,
+                          UserRepository userRepository,
+                          RoleRepository roleRepository,
+                          PasswordEncoder passwordEncoder,
+                          SessionService sessionService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.sessionRepository = sessionRepository;
+        this.sessionService = sessionService;
     }
 
     @PostMapping("/register")
@@ -60,10 +61,7 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession httpSession) {
         User user = userRepository.findByLogin(loginDto.getLogin());
         if (passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
-            Session session = new Session();
-            session.setJSSESSIONID(httpSession.getId());
-            session.setUserId(user.getId());
-            sessionRepository.save(session);
+            sessionService.saveSession(httpSession, user);
             return new ResponseEntity<>("Logged successfully!", HttpStatus.CREATED);
         }
         return new ResponseEntity<>("Incorrect login data!", HttpStatus.OK);

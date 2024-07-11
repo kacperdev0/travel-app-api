@@ -3,6 +3,10 @@ package com.kacper.travelApp.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 @Data
 @Entity
 public class Session {
@@ -13,4 +17,10 @@ public class Session {
     private String JSSESSIONID;
     @Column(name = "user_id")
     private Long userId;
+    @Column(name = "created_at")
+    private Long createdAt;
+
+    public void updateCreatedAt() {
+        this.createdAt = Instant.now().toEpochMilli();
+    }
 }

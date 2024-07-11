@@ -1,5 +1,6 @@
 package com.kacper.travelApp.security;
 
+import com.kacper.travelApp.repository.SessionRepository;
 import com.kacper.travelApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,22 @@ public class SecurityConfig {
 
     @Autowired
     UserDetailsService userDetailsService;
+
+    @Autowired
+    SessionRepository sessionRepository;
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
+                .csrf(csrf -> csrf.disable())
+                .addFilterBefore(new CustomFilter(sessionRepository), BasicAuthenticationFilter.class)
+                .authorizeHttpRequests((requests) -> requests
+                        .anyRequest().permitAll()
+                );
+        return http.build();
+    }
+
     @Bean
     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
@@ -32,21 +49,8 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
-                .csrf(csrf -> csrf.disable())
-                .addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
-                .authorizeHttpRequests((requests) -> requests
-                        .anyRequest().permitAll()
-                );
-        return http.build();
     }
 }
