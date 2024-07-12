@@ -25,9 +25,6 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfig {
 
     @Autowired
-    UserDetailsService userDetailsService;
-
-    @Autowired
     SessionRepository sessionRepository;
 
     @Bean
@@ -35,20 +32,11 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
                 .csrf(csrf -> csrf.disable())
-                .addFilterBefore(new CustomFilter(sessionRepository), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
                         .anyRequest().permitAll()
                 );
         return http.build();
     }
-
-    @Bean
-    public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        return authenticationManagerBuilder.build();
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
