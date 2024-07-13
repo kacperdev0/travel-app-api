@@ -36,4 +36,12 @@ public class SessionServiceImpl implements SessionService {
         session.updateCreatedAt();
         return sessionRepository.save(session);
     }
+
+    @Override
+    public boolean isSessionActive(String sessionId) {
+        if (sessionRepository.existsByJSSESSIONID(sessionId)) {
+            return true;
+        }
+        return false;
+    }
 }
