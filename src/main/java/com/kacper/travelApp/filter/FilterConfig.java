@@ -23,7 +23,5 @@ public class FilterConfig {
         registrationBean.setFilter(new SessionFilter(sessionService));
         registrationBean.addUrlPatterns("/api/protected/*");
         return registrationBean;
-
-
     }
 }

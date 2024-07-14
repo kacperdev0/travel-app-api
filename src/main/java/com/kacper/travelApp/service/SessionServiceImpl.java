@@ -39,7 +39,8 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public boolean isSessionActive(String sessionId) {
-        if (sessionRepository.existsByJSSESSIONID(sessionId)) {
+        Optional<Session> optionalSession = sessionRepository.findSessionByJSSESSIONID(sessionId);
+        if (optionalSession.isPresent() && optionalSession.get().isSessionActive()) {
             return true;
         }
         return false;

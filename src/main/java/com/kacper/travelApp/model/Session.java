@@ -23,4 +23,11 @@ public class Session {
     public void updateCreatedAt() {
         this.createdAt = Instant.now().toEpochMilli();
     }
+
+    public boolean isSessionActive() {
+        long currentTimeMillis = Instant.now().toEpochMilli();
+        long sessionDurationMillis = currentTimeMillis - this.createdAt;
+        long sessionDurationMinutes = sessionDurationMillis / 1000 / 60;
+        return sessionDurationMinutes < 30;
+    }
 }
