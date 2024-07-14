@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,15 @@ public class SessionServiceImpl implements SessionService {
             Session session = sessionOptional.get();
             session.updateCreatedAt();
             return sessionRepository.save(session);
+        }
+
+        sessionOptional = sessionRepository.findSessionByUserId(user.getId());
+        if (sessionOptional.isPresent()) {
+            Session session = sessionOptional.get();
+            session.setJSSESSIONID(sessionID);
+            session.updateCreatedAt();
+            return sessionRepository.save(session);
+
         }
 
         Session session = new Session();
