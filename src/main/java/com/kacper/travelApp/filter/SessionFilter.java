@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -23,11 +24,11 @@ public class SessionFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        System.out.println(httpServletRequest.getSession().getId());
+        System.out.println("Session id: " + httpServletRequest.getSession().getId());
         if (sessionService.isSessionActive(httpServletRequest.getSession().getId())) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            httpServletResponse.sendRedirect("/login");
+            httpServletResponse.sendError(401, "Your session has expired");
         }
 
      }

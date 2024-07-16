@@ -49,6 +49,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public boolean isSessionActive(String sessionId) {
+        System.out.println("Checking if session " + sessionId + " is active");
         Optional<Session> optionalSession = sessionRepository.findSessionByJSSESSIONID(sessionId);
         if (optionalSession.isPresent() && optionalSession.get().isSessionActive()) {
             return true;
