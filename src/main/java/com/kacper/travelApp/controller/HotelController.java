@@ -1,14 +1,16 @@
 package com.kacper.travelApp.controller;
 
+import com.kacper.travelApp.model.dto.SearchHotelsDto;
 import com.kacper.travelApp.service.HotelService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/hotels")
+@Validated
 public class HotelController {
 
     private final HotelService hotelService;
@@ -17,21 +19,13 @@ public class HotelController {
         this.hotelService = hotelService;
     }
 
-    @GetMapping("/searchHotels")
-    public Mono<String> searchHotels(
-            @RequestParam String destId,
-            @RequestParam String searchType,
-            @RequestParam String arrivalDate,
-            @RequestParam String departureDate,
-            @RequestParam int adults,
-            @RequestParam String childrenAge,
-            @RequestParam int roomQty,
-            @RequestParam int pageNumber,
-            @RequestParam String units,
-            @RequestParam String temperatureUnit,
-            @RequestParam String languageCode,
-            @RequestParam String currencyCode) {
-        return hotelService.searchHotels(destId, searchType, arrivalDate, departureDate, adults, childrenAge, roomQty,
-                pageNumber, units, temperatureUnit, languageCode, currencyCode);
+    @PostMapping("/searchHotels")
+    public Mono<String> searchHotels(@Valid @RequestBody SearchHotelsDto params) {
+        return hotelService.searchHotels(
+                params.getDestId(), params.getSearchType(), params.getArrivalDate(),
+                params.getDepartureDate(), params.getAdults(), params.getChildrenAge(),
+                params.getRoomQty(), params.getPageNumber(), params.getUnits(),
+                params.getTemperatureUnit(), params.getLanguageCode(), params.getCurrencyCode()
+        );
     }
 }

@@ -1,4 +1,4 @@
-package com.kacper.travelApp.model;
+package com.kacper.travelApp.model.dto;
 
 import lombok.Data;
 

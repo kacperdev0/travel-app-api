@@ -1,13 +1,14 @@
 package com.kacper.travelApp.controller;
 
 import com.kacper.travelApp.model.*;
+import com.kacper.travelApp.model.dto.LoginDto;
+import com.kacper.travelApp.model.dto.RegisterDto;
 import com.kacper.travelApp.repository.UserRepository;
 import com.kacper.travelApp.service.SessionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
