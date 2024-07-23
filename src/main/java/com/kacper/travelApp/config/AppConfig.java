@@ -10,6 +10,6 @@ public class AppConfig {
     @Bean
     public WebClient.Builder webClientBean() {
         return WebClient.builder()
-                .baseUrl("https://booking-com15.p.rapidapi.com");
+                .baseUrl("https://overpass-api.de/api/");
     }
 }

@@ -22,10 +22,9 @@ public class HotelController {
     @PostMapping("/searchHotels")
     public Mono<String> searchHotels(@Valid @RequestBody SearchHotelsDto params) {
         return hotelService.searchHotels(
-                params.getDestId(), params.getSearchType(), params.getArrivalDate(),
-                params.getDepartureDate(), params.getAdults(), params.getChildrenAge(),
-                params.getRoomQty(), params.getPageNumber(), params.getUnits(),
-                params.getTemperatureUnit(), params.getLanguageCode(), params.getCurrencyCode()
+                params.getLatitude(),
+                params.getLongitude(),
+                10000
         );
     }
 }

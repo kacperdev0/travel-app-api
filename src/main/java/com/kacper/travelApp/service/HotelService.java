@@ -17,27 +17,19 @@ public class HotelService {
         this.webClient = webClientBuilder.build();
     }
 
-    public Mono<String> searchHotels(String destinationId, String searchType, String arrivalDate, String departureDate,
-                                     int adults, String childrenAge, int roomQty, int pageNumber, String units,
-                                     String temperatureUnit, String languageCode, String currencyCode) {
+    public Mono<String> searchHotels(double latitude, double longitude, int radius) {
+        String query = String.format(
+                "[out:json];\n" +
+                        "node[\"tourism\"=\"hotel\"](around:%d, %f, %f);\n" +
+                        "out body;",
+                radius, latitude, longitude
+        );
+
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/api/v1/hotels/searchHotels")
-                        .queryParam("dest_id", destinationId)
-                        .queryParam("search_type", searchType)
-                        .queryParam("arrival_date", arrivalDate)
-                        .queryParam("departure_date", departureDate)
-                        .queryParam("adults", adults)
-                        .queryParam("children_age", childrenAge)
-                        .queryParam("room_qty", roomQty)
-                        .queryParam("page_number", pageNumber)
-                        .queryParam("units", units)
-                        .queryParam("temperature_unit", temperatureUnit)
-                        .queryParam("languagecode", languageCode)
-                        .queryParam("currency_code", currencyCode)
+                        .path("/interpreter")
+                        .queryParam("data", query)
                         .build())
-                .header("x-rapidapi-key", apiKey)
-                .header("x-rapidapi-host", "booking-com15.p.rapidapi.com")
                 .retrieve()
                 .bodyToMono(String.class);
     }
