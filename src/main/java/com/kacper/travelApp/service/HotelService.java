@@ -7,10 +7,6 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class HotelService {
-
-    @Value("${rapidapi.key}")
-    private String apiKey;
-
     private final WebClient webClient;
 
     public HotelService(WebClient.Builder webClientBuilder) {
