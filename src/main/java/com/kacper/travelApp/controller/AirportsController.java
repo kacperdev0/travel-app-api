@@ -26,7 +26,7 @@ public class AirportsController {
         return airportService.searchAirports(
                 params.getLatitude(),
                 params.getLongitude(),
-                50000
+                80000
         );
     }
 }

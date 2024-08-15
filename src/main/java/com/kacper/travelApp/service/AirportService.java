@@ -12,7 +12,7 @@ public class AirportService {
     private final WebClient webClient;
 
     public AirportService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("https://overpass-api.de/api").build();
+        this.webClient = webClientBuilder.build();
     }
 
     public Mono<String> searchAirports(double lat, double lon, int radius) {
