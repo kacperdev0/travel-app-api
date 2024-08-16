@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/plan")
+@RequestMapping("api/protected/plan")
 public class PlanController {
     private final PlanService planService;
     private final SessionRepository sessionRepository;
