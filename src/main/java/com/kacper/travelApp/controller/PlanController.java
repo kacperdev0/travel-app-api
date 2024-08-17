@@ -40,5 +40,10 @@ public class PlanController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/getPlans")
+    public ResponseEntity<String> getPlan(HttpSession httpSession) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }
