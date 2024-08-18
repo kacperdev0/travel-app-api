@@ -18,6 +18,10 @@ public class Plan {
     @Column(name = "airportDeparture")
     private String airportDeparture;
 
+    public Plan() {
+
+    }
+
     public Plan(long userId, String hotel, String airportArrival, String airportDeparture) {
         this.userId = userId;
         this.hotel = hotel;

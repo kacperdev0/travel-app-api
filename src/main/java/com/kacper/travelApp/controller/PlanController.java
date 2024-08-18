@@ -8,7 +8,9 @@ import com.kacper.travelApp.repository.SessionRepository;
 import com.kacper.travelApp.service.PlanService;
 import com.kacper.travelApp.service.SessionService;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.http.HttpStatus;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,10 +23,12 @@ import java.util.Optional;
 @RequestMapping("api/protected/plan")
 public class PlanController {
     private final PlanService planService;
+    private final PlanRepository planRepository;
     private final SessionRepository sessionRepository;
 
-    public PlanController(PlanService planService, SessionService sessionService, PlanRepository planRepository, SessionRepository sessionRepository) {
+    public PlanController(PlanService planService, SessionService sessionService, PlanRepository planRepository, PlanRepository planRepository1, SessionRepository sessionRepository) {
         this.planService = planService;
+        this.planRepository = planRepository1;
         this.sessionRepository = sessionRepository;
     }
 
@@ -41,8 +45,19 @@ public class PlanController {
     }
 
     @PostMapping("/getPlans")
-    public ResponseEntity<String> getPlan(HttpSession httpSession) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> getPlan(HttpSession httpSession) {
+        Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
+        if (!session.isPresent()) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+
+        long userId = session.get().getUserId();
+        List<Plan> plans = planRepository.findPlansByUserId(userId);
+        if (plans.isEmpty()) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(plans, HttpStatus.OK);
     }
 
 
