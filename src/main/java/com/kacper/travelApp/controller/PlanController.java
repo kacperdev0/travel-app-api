@@ -26,9 +26,9 @@ public class PlanController {
     private final PlanRepository planRepository;
     private final SessionRepository sessionRepository;
 
-    public PlanController(PlanService planService, SessionService sessionService, PlanRepository planRepository, PlanRepository planRepository1, SessionRepository sessionRepository) {
+    public PlanController(PlanService planService, PlanRepository planRepository, SessionRepository sessionRepository) {
         this.planService = planService;
-        this.planRepository = planRepository1;
+        this.planRepository = planRepository;
         this.sessionRepository = sessionRepository;
     }
 
@@ -36,8 +36,9 @@ public class PlanController {
     public ResponseEntity<String> savePlan(HttpSession httpSession, @RequestBody PlanDto planDto) {
         Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
         if (!session.isPresent()) {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         long userId = session.get().getUserId();
         Plan plan = new Plan(userId, planDto.getHotel(), planDto.getAirportArrival(), planDto.getAirportDeparture());
         planService.savePlan(plan);
@@ -45,20 +46,19 @@ public class PlanController {
     }
 
     @PostMapping("/getPlans")
-    public ResponseEntity<?> getPlan(HttpSession httpSession) {
+    public ResponseEntity<?> getPlans(HttpSession httpSession) {
         Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
         if (!session.isPresent()) {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         long userId = session.get().getUserId();
         List<Plan> plans = planRepository.findPlansByUserId(userId);
         if (plans.isEmpty()) {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(plans, HttpStatus.OK);
     }
-
-
 }
+

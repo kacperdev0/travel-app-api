@@ -24,12 +24,12 @@ public class SessionFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        System.out.println("Session id: " + httpServletRequest.getSession().getId());
         if (sessionService.isSessionActive(httpServletRequest.getSession().getId())) {
+            System.out.println("Session is active: " + httpServletRequest.getSession().getId());
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
+            System.out.println("Session is not active: " + httpServletRequest.getSession().getId());
             httpServletResponse.sendError(401, "Your session has expired");
         }
-
      }
 }
