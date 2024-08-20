@@ -54,6 +54,6 @@ public class AuthController {
             sessionService.saveSession(httpSession, user);
             return new ResponseEntity<>("Logged successfully!", HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("Incorrect login data!", HttpStatus.OK);
+        return new ResponseEntity<>("Incorrect login data!", HttpStatus.UNAUTHORIZED);
     }
 }
