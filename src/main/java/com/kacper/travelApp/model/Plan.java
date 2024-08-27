@@ -17,6 +17,8 @@ public class Plan {
     private String airportArrival;
     @Column(name = "airportDeparture")
     private String airportDeparture;
+    @Column(name = "saveTime")
+    private String saveTime;
 
     public Plan() {
 
