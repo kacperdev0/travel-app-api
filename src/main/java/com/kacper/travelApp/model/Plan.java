@@ -3,6 +3,8 @@ package com.kacper.travelApp.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 public class Plan {
@@ -29,5 +31,6 @@ public class Plan {
         this.hotel = hotel;
         this.airportArrival = airportArrival;
         this.airportDeparture = airportDeparture;
+        this.saveTime = LocalDateTime.now().toString();
     }
 }
