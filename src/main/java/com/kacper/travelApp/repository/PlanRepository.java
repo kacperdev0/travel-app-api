@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface PlanRepository extends JpaRepository<Plan, Integer> {
     List<Plan> findPlansByUserId(long userId);
+    Optional<Plan> findPlansById(long Id);
 }

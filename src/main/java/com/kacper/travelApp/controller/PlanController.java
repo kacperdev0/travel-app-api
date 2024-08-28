@@ -1,7 +1,9 @@
 package com.kacper.travelApp.controller;
 
+import ch.qos.logback.core.status.ErrorStatus;
 import com.kacper.travelApp.model.Plan;
 import com.kacper.travelApp.model.Session;
+import com.kacper.travelApp.model.dto.OverwritePlanDto;
 import com.kacper.travelApp.model.dto.PlanDto;
 import com.kacper.travelApp.repository.PlanRepository;
 import com.kacper.travelApp.repository.SessionRepository;
@@ -45,6 +47,25 @@ public class PlanController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/overwritePlan")
+    public ResponseEntity<String> savePlan(HttpSession httpSession, @RequestBody OverwritePlanDto overwritePlanDto) {
+        Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
+        if (!session.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Optional<Plan> planOptional = planRepository.findPlansById(overwritePlanDto.getId());
+        if (planOptional.isPresent() == false) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        Plan plan = planOptional.get();
+        plan.setHotel(overwritePlanDto.getHotel());
+        plan.setAirportArrival(overwritePlanDto.getAirportArrival());
+        plan.setAirportDeparture(overwritePlanDto.getAirportDeparture());
+        planService.savePlan(plan);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/getPlans")
     public ResponseEntity<?> getPlans(HttpSession httpSession) {
         Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
@@ -60,5 +81,7 @@ public class PlanController {
 
         return new ResponseEntity<>(plans, HttpStatus.OK);
     }
+
+
 }
 
