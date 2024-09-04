@@ -42,6 +42,10 @@ public class PlanController {
         }
 
         long userId = session.get().getUserId();
+        if (planService.checkIfAmountOfPlansIsOverTreshold(userId, 10)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         Plan plan = new Plan(userId, planDto.getHotel(), planDto.getAirportArrival(), planDto.getAirportDeparture());
         planService.savePlan(plan);
         return new ResponseEntity<>(HttpStatus.OK);

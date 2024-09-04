@@ -5,4 +5,5 @@ import jakarta.servlet.http.HttpSession;
 
 public interface PlanService {
     public Plan savePlan(Plan plan);
+    public boolean checkIfAmountOfPlansIsOverTreshold(long userId, int treshold);
 }
