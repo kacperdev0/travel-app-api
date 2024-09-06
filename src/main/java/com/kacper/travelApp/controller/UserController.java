@@ -20,6 +20,7 @@ public class UserController {
     public UserRepository userRepository;
     public SessionRepository sessionRepository;
 
+
     public UserController(UserRepository userRepository, SessionRepository sessionRepository) {
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
@@ -30,5 +31,19 @@ public class UserController {
         Optional<Session> s = sessionRepository.findSessionByJSSESSIONID(session.getId());
         Optional<User> user = userRepository.findById(s.get().getUserId());
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    }
+
+    @PostMapping("avatarUrl")
+    public ResponseEntity<?> setUserAvatarUrl(HttpSession httpSession, @RequestBody String newAvatarUrl) {
+        Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
+        if (!session.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Optional<User> user = userRepository.findById(session.get().getUserId());
+        User changedUser = user.get();
+        changedUser.setAvatarUrl(newAvatarUrl);
+        userRepository.save(changedUser);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
