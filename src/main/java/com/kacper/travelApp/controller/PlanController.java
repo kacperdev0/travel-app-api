@@ -86,6 +86,12 @@ public class PlanController {
         return new ResponseEntity<>(plans, HttpStatus.OK);
     }
 
+    @PostMapping("/getPopularPlans")
+    public ResponseEntity<?> getPopularPlans() {
+        List<Plan> plans = planRepository.findAll();
+        return new ResponseEntity<>(plans, HttpStatus.OK);
+    }
+
 
 }
 

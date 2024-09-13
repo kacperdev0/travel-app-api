@@ -36,9 +36,11 @@ public class UserController {
     @PostMapping("avatarUrl")
     public ResponseEntity<?> setUserAvatarUrl(HttpSession httpSession, @RequestBody String newAvatarUrl) {
         Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
-        if (!session.isPresent()) {
+        if (!session.isPresent()) { 
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        System.out.println(newAvatarUrl);
 
         Optional<User> user = userRepository.findById(session.get().getUserId());
         User changedUser = user.get();
