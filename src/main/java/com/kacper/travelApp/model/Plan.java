@@ -21,6 +21,8 @@ public class Plan {
     private String airportDeparture;
     @Column(name = "saveTime")
     private String saveTime;
+    @Column(name = "isPublic")
+    private boolean isPublic;
 
     public Plan() {
 
@@ -32,5 +34,6 @@ public class Plan {
         this.airportArrival = airportArrival;
         this.airportDeparture = airportDeparture;
         this.saveTime = LocalDateTime.now().toString();
+        this.isPublic = false;
     }
 }

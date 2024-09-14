@@ -66,6 +66,7 @@ public class PlanController {
         plan.setHotel(overwritePlanDto.getHotel());
         plan.setAirportArrival(overwritePlanDto.getAirportArrival());
         plan.setAirportDeparture(overwritePlanDto.getAirportDeparture());
+        plan.setPublic(false);
         planService.savePlan(plan);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -88,6 +89,13 @@ public class PlanController {
 
     @PostMapping("/getPopularPlans")
     public ResponseEntity<?> getPopularPlans() {
+        List<Plan> plans = planRepository.findAll();
+        return new ResponseEntity<>(plans, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/togglePlanPublicity")
+    public ResponseEntity<?> togglePlanVisibility() {
         List<Plan> plans = planRepository.findAll();
         return new ResponseEntity<>(plans, HttpStatus.OK);
     }
