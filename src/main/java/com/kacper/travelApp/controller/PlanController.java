@@ -73,6 +73,7 @@ public class PlanController {
 
     @PostMapping("/getPlans")
     public ResponseEntity<?> getPlans(HttpSession httpSession) {
+        System.out.println("GetPlans");
         Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
         if (!session.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -80,25 +81,7 @@ public class PlanController {
 
         long userId = session.get().getUserId();
         List<Plan> plans = planRepository.findPlansByUserId(userId);
-        if (plans.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
         return new ResponseEntity<>(plans, HttpStatus.OK);
     }
-
-    @PostMapping("/getPopularPlans")
-    public ResponseEntity<?> getPopularPlans() {
-        List<Plan> plans = planRepository.findAll();
-        return new ResponseEntity<>(plans, HttpStatus.OK);
-    }
-
-
-    @PostMapping("/togglePlanPublicity")
-    public ResponseEntity<?> togglePlanVisibility() {
-        List<Plan> plans = planRepository.findAll();
-        return new ResponseEntity<>(plans, HttpStatus.OK);
-    }
-
 }
 
