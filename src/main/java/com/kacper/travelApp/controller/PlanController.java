@@ -14,10 +14,7 @@ import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.http.HttpStatus;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -82,6 +79,21 @@ public class PlanController {
         long userId = session.get().getUserId();
         List<Plan> plans = planRepository.findPlansByUserId(userId);
         return new ResponseEntity<>(plans, HttpStatus.OK);
+    }
+
+    @PostMapping("/togglePublicity/{id}")
+    public ResponseEntity<?> togglePublicity(@PathVariable long id) {
+        Optional<Plan> plan = planRepository.findPlansById(id);
+
+        if (!plan.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Plan currentPlan = plan.get();
+        currentPlan.setPublic(!currentPlan.isPublic());
+        planRepository.save(currentPlan);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 
