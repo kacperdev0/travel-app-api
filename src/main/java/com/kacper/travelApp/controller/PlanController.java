@@ -86,8 +86,9 @@ public class PlanController {
         Optional<Plan> plan = planRepository.findPlansById(id);
 
         if (!plan.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+
 
         Plan currentPlan = plan.get();
         currentPlan.setPublic(!currentPlan.isPublic());
