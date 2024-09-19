@@ -12,4 +12,9 @@ public class Post {
     private Long id;
     @Column(name = "planId")
     private long planId;
+
+    public Post(long planId) {
+        this.id = id;
+        this.planId = planId;
+    }
 }

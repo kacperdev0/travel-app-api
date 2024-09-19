@@ -2,10 +2,12 @@ package com.kacper.travelApp.controller;
 
 import ch.qos.logback.core.status.ErrorStatus;
 import com.kacper.travelApp.model.Plan;
+import com.kacper.travelApp.model.Post;
 import com.kacper.travelApp.model.Session;
 import com.kacper.travelApp.model.dto.OverwritePlanDto;
 import com.kacper.travelApp.model.dto.PlanDto;
 import com.kacper.travelApp.repository.PlanRepository;
+import com.kacper.travelApp.repository.PostRepository;
 import com.kacper.travelApp.repository.SessionRepository;
 import com.kacper.travelApp.service.PlanService;
 import com.kacper.travelApp.service.SessionService;
@@ -25,10 +27,13 @@ public class PlanController {
     private final PlanRepository planRepository;
     private final SessionRepository sessionRepository;
 
-    public PlanController(PlanService planService, PlanRepository planRepository, SessionRepository sessionRepository) {
+    private final PostRepository postRepository;
+
+    public PlanController(PlanService planService, PlanRepository planRepository, SessionRepository sessionRepository, PostRepository postRepository) {
         this.planService = planService;
         this.planRepository = planRepository;
         this.sessionRepository = sessionRepository;
+        this.postRepository = postRepository;
     }
 
     @PostMapping("/savePlan")
@@ -89,8 +94,12 @@ public class PlanController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-
         Plan currentPlan = plan.get();
+
+        if (!currentPlan.isPublic() && !postRepository.existsByPlanId(currentPlan.getId())) {
+            postRepository.save(new Post(currentPlan.getId()));
+        }
+
         currentPlan.setPublic(!currentPlan.isPublic());
         planRepository.save(currentPlan);
 
