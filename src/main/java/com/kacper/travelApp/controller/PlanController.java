@@ -97,7 +97,7 @@ public class PlanController {
         Plan currentPlan = plan.get();
 
         if (!currentPlan.isPublic() && !postRepository.existsByPlanId(currentPlan.getId())) {
-            postRepository.save(new Post(currentPlan.getId()));
+            postRepository.save(new Post(currentPlan));
         }
 
         currentPlan.setPublic(!currentPlan.isPublic());

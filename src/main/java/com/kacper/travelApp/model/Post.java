@@ -10,11 +10,14 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "planId")
-    private long planId;
+    @ManyToOne
+    @JoinColumn(name = "planId")
+    private Plan plan;
 
-    public Post(long planId) {
+    public Post() {}
+
+    public Post(Plan plan) {
         this.id = id;
-        this.planId = planId;
+        this.plan = plan;
     }
 }
