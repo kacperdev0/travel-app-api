@@ -4,7 +4,7 @@ import com.kacper.travelApp.model.*;
 import com.kacper.travelApp.model.dto.LoginDto;
 import com.kacper.travelApp.model.dto.RegisterDto;
 import com.kacper.travelApp.repository.UserRepository;
-import com.kacper.travelApp.service.SessionService;
+import com.kacper.travelApp.service.Service.SessionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

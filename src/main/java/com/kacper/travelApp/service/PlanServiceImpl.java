@@ -2,6 +2,7 @@ package com.kacper.travelApp.service;
 
 import com.kacper.travelApp.model.Plan;
 import com.kacper.travelApp.repository.PlanRepository;
+import com.kacper.travelApp.service.Service.PlanService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

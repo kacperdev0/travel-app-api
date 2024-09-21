@@ -1,8 +1,7 @@
 package com.kacper.travelApp.controller;
 
 import com.kacper.travelApp.model.dto.SearchHotelsDto;
-import com.kacper.travelApp.service.AirportService;
-import com.kacper.travelApp.service.HotelService;
+import com.kacper.travelApp.service.Service.AirportService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;

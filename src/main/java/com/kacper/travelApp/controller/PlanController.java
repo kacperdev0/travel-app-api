@@ -1,6 +1,5 @@
 package com.kacper.travelApp.controller;
 
-import ch.qos.logback.core.status.ErrorStatus;
 import com.kacper.travelApp.model.Plan;
 import com.kacper.travelApp.model.Post;
 import com.kacper.travelApp.model.Session;
@@ -9,10 +8,8 @@ import com.kacper.travelApp.model.dto.PlanDto;
 import com.kacper.travelApp.repository.PlanRepository;
 import com.kacper.travelApp.repository.PostRepository;
 import com.kacper.travelApp.repository.SessionRepository;
-import com.kacper.travelApp.service.PlanService;
-import com.kacper.travelApp.service.SessionService;
+import com.kacper.travelApp.service.Service.PlanService;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.http.HttpStatus;
 import java.util.List;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,6 @@ import com.kacper.travelApp.model.Session;
 import com.kacper.travelApp.model.User;
 import com.kacper.travelApp.repository.SessionRepository;
 import com.kacper.travelApp.repository.UserRepository;
-import com.kacper.travelApp.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

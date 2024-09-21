@@ -1,4 +1,4 @@
-package com.kacper.travelApp.service;
+package com.kacper.travelApp.service.Service;
 
 import com.kacper.travelApp.model.User;
 
