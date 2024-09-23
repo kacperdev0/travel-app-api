@@ -27,6 +27,9 @@ public class SessionServiceImpl implements SessionService {
 
         if (sessionOptional.isPresent()) {
             Session session = sessionOptional.get();
+            if (session.getUserId() != user.getId()) {
+                session.setUserId(user.getId());
+            }
             session.updateCreatedAt();
             return sessionRepository.save(session);
         }
@@ -37,7 +40,6 @@ public class SessionServiceImpl implements SessionService {
             session.setJSSESSIONID(sessionID);
             session.updateCreatedAt();
             return sessionRepository.save(session);
-
         }
 
         Session session = new Session();
@@ -49,7 +51,6 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public boolean isSessionActive(String sessionId) {
-        System.out.println("Checking if session " + sessionId + " is active");
         Optional<Session> optionalSession = sessionRepository.findSessionByJSSESSIONID(sessionId);
         if (optionalSession.isPresent() && optionalSession.get().isSessionActive()) {
             return true;

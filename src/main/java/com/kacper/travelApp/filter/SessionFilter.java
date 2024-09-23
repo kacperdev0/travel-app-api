@@ -22,11 +22,11 @@ public class SessionFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
+        System.out.println("Checking if session is active");
         if (sessionService.isSessionActive(httpServletRequest.getSession().getId())) {
-            System.out.println("Session is active: " + httpServletRequest.getSession().getId());
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            System.out.println("Session is not active: " + httpServletRequest.getSession().getId());
+            System.out.println("Session expired");
             httpServletResponse.sendError(401, "Your session has expired");
         }
      }

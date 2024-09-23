@@ -32,18 +32,36 @@ public class UserController {
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
-    @PostMapping("avatarUrl")
-    public ResponseEntity<?> setUserAvatarUrl(HttpSession httpSession, @RequestBody String newAvatarUrl) {
+    @PostMapping("avatarUrl/{newAvatarUrl}")
+    public ResponseEntity<?> setUserAvatarUrl(HttpSession httpSession, @PathVariable String newAvatarUrl) {
         Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
-        if (!session.isPresent()) { 
+        if (!session.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        System.out.println(newAvatarUrl);
+        System.out.println("Changing avatar URL");
 
         Optional<User> user = userRepository.findById(session.get().getUserId());
         User changedUser = user.get();
         changedUser.setAvatarUrl(newAvatarUrl);
+        userRepository.save(changedUser);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("username/{username}")
+    public ResponseEntity<?> setUsername(HttpSession httpSession, @PathVariable String username) {
+
+        Optional<Session> session = sessionRepository.findSessionByJSSESSIONID(httpSession.getId());
+        System.out.println(session.get());
+        if (!session.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        System.out.println(username);
+
+        Optional<User> user = userRepository.findById(session.get().getUserId());
+        User changedUser = user.get();
+        changedUser.setUsername(username);
         userRepository.save(changedUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }

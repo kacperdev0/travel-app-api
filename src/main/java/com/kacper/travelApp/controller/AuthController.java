@@ -51,6 +51,7 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession httpSession) {
         User user = userRepository.findByLogin(loginDto.getLogin());
         if (passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+
             sessionService.saveSession(httpSession, user);
             return new ResponseEntity<>("Logged successfully!", HttpStatus.CREATED);
         }
