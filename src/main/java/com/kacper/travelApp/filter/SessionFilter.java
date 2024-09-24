@@ -22,7 +22,7 @@ public class SessionFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        System.out.println("Checking if session is active");
+        System.out.println("Checking if session"+ httpServletRequest.getSession().getId() +" is active");
         if (sessionService.isSessionActive(httpServletRequest.getSession().getId())) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
