@@ -1,5 +1,6 @@
 package com.kacper.travelApp.model;
 
+import com.kacper.travelApp.repository.UserRepository;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,8 +12,9 @@ public class Plan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
-    @Column(name="userId")
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name="user")
+    private User user;
     @Column(name = "hotel")
     private String hotel;
     @Column(name = "airportArrival")
@@ -28,8 +30,8 @@ public class Plan {
 
     }
 
-    public Plan(long userId, String hotel, String airportArrival, String airportDeparture) {
-        this.userId = userId;
+    public Plan(User user, String hotel, String airportArrival, String airportDeparture) {
+        this.user = user;
         this.hotel = hotel;
         this.airportArrival = airportArrival;
         this.airportDeparture = airportDeparture;

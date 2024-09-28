@@ -8,6 +8,7 @@ import com.kacper.travelApp.model.dto.PlanDto;
 import com.kacper.travelApp.repository.PlanRepository;
 import com.kacper.travelApp.repository.PostRepository;
 import com.kacper.travelApp.repository.SessionRepository;
+import com.kacper.travelApp.repository.UserRepository;
 import com.kacper.travelApp.service.Service.PlanService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,14 @@ public class PlanController {
     private final SessionRepository sessionRepository;
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public PlanController(PlanService planService, PlanRepository planRepository, SessionRepository sessionRepository, PostRepository postRepository) {
+    public PlanController(PlanService planService, PlanRepository planRepository, SessionRepository sessionRepository, PostRepository postRepository, UserRepository userRepository) {
         this.planService = planService;
         this.planRepository = planRepository;
         this.sessionRepository = sessionRepository;
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/savePlan")
@@ -45,7 +48,7 @@ public class PlanController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        Plan plan = new Plan(userId, planDto.getHotel(), planDto.getAirportArrival(), planDto.getAirportDeparture());
+        Plan plan = new Plan(userRepository.findById(userId), planDto.getHotel(), planDto.getAirportArrival(), planDto.getAirportDeparture());
         planService.savePlan(plan);
         return new ResponseEntity<>(HttpStatus.OK);
     }
