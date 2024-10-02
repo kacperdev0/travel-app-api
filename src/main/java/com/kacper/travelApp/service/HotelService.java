@@ -13,20 +13,21 @@ public class HotelService {
         this.webClient = webClientBuilder.build();
     }
 
-    public Mono<String> searchHotels(double latitude, double longitude, int radius) {
+    public Mono<String> searchHotels(double lat, double lon, int radius) {
         String query = String.format(
                 "[out:json];\n" +
                         "node[\"tourism\"=\"hotel\"](around:%d, %f, %f);\n" +
                         "out body;",
-                radius, latitude, longitude
+                radius, lat, lon
         );
+        String url = "/interpreter?data=" + query;
 
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/interpreter")
-                        .queryParam("data", query)
-                        .build())
+        return this.webClient.get()
+                .uri(url)
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(String.class)
+                .doOnNext(response -> {
+                    System.out.println("Response from Overpass API: " + response); // Log the response
+                });
     }
 }

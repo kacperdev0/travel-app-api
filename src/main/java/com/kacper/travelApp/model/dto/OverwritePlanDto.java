@@ -6,7 +6,5 @@ import lombok.Data;
 @Data
 public class OverwritePlanDto {
     private long id;
-    private String hotel;
-    private String airportArrival;
-    private String airportDeparture;
+    private String locations;
 }

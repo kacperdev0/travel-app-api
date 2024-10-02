@@ -15,12 +15,8 @@ public class Plan {
     @ManyToOne
     @JoinColumn(name="user")
     private User user;
-    @Column(name = "hotel")
-    private String hotel;
-    @Column(name = "airportArrival")
-    private String airportArrival;
-    @Column(name = "airportDeparture")
-    private String airportDeparture;
+    @Column(name = "locations")
+    private String locations;
     @Column(name = "saveTime")
     private String saveTime;
     @Column(name = "isPublic")
@@ -30,11 +26,9 @@ public class Plan {
 
     }
 
-    public Plan(User user, String hotel, String airportArrival, String airportDeparture) {
+    public Plan(User user, String locations) {
         this.user = user;
-        this.hotel = hotel;
-        this.airportArrival = airportArrival;
-        this.airportDeparture = airportDeparture;
+        this.locations = locations;
         this.saveTime = LocalDateTime.now().toString();
         this.isPublic = false;
     }

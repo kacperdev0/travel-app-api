@@ -24,7 +24,7 @@ public class HotelController {
         return hotelService.searchHotels(
                 params.getLatitude(),
                 params.getLongitude(),
-                10000
+                20000
         );
     }
 }

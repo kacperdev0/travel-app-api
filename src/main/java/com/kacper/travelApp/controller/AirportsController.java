@@ -21,7 +21,7 @@ public class AirportsController {
 
 
     @PostMapping("/searchAirports")
-    public Mono<String> searchHotels(@Valid @RequestBody SearchHotelsDto params) {
+    public Mono<String> searchAirports(@Valid @RequestBody SearchHotelsDto params) {
         return airportService.searchAirports(
                 params.getLatitude(),
                 params.getLongitude(),

@@ -48,7 +48,7 @@ public class PlanController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        Plan plan = new Plan(userRepository.findById(userId), planDto.getHotel(), planDto.getAirportArrival(), planDto.getAirportDeparture());
+        Plan plan = new Plan(userRepository.findById(userId), planDto.getLocations());
         planService.savePlan(plan);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -65,9 +65,7 @@ public class PlanController {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
         Plan plan = planOptional.get();
-        plan.setHotel(overwritePlanDto.getHotel());
-        plan.setAirportArrival(overwritePlanDto.getAirportArrival());
-        plan.setAirportDeparture(overwritePlanDto.getAirportDeparture());
+        plan.setLocations(overwritePlanDto.getLocations());
         plan.setPublic(false);
         planService.savePlan(plan);
         return new ResponseEntity<>(HttpStatus.OK);
