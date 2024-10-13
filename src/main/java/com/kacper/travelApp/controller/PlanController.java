@@ -81,6 +81,7 @@ public class PlanController {
 
         long userId = session.get().getUserId();
         List<Plan> plans = planRepository.findPlansByUserId(userId);
+        System.out.println(plans);
         return new ResponseEntity<>(plans, HttpStatus.OK);
     }
 
