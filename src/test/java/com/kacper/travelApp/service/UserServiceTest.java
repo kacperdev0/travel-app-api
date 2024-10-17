@@ -21,7 +21,7 @@ public class UserServiceTest {
     private UserServiceImpl userService;
 
     @Test
-    public void UserService_Save_ReturnsSavedUser() {
+    public void saveUser_WhenCalled_ReturnsSavedUser() {
         User testUser = User.builder()
                 .login("login1")
                 .username("username1")
@@ -29,10 +29,9 @@ public class UserServiceTest {
                 .email("email1@email.com")
                 .avatarUrl("link.link1").build();
 
-        when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        userRepository.save(testUser);
 
-        User savedUser = userRepository.save(testUser);
-        System.out.println(savedUser);
+        User savedUser = userRepository.findByLogin(testUser.getLogin());
         Assertions.assertThat(savedUser).isNotNull();
     }
 
